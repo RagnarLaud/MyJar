@@ -58,7 +58,7 @@ export default function Application({settingsPath}) {
      * needed by the application.
      */
     this.start = async() => {
-        if (false !== isSetUp) await this.setup();
+        if (true !== isSetUp) await this.setup();
 
         await this.enc.initialize({passphrasePath: this.settings.encryptionKey});
         await this.utils.initialize(this.settings.twilio);

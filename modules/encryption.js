@@ -4,8 +4,6 @@ import path from 'path';
 
 /**
  * Encryption handler constructor function
- * @param passphrasePath The passphrase file path.
- * @param passphrase The passphrase. This outweights the passphrase file.
  * @constructor
  */
 export default function EncryptionHandler(){
@@ -19,6 +17,8 @@ export default function EncryptionHandler(){
      * If the passphrase path does not resolve to a file, a file will
      * be generated. If neither a passphrase nor a path are given,
      * the passphrase will be created in the parent directory.
+     * @param passphrasePath The passphrase file path.
+     * @param passphrase The passphrase. This outweights the passphrase file.
      */
 	this.initialize = async ({passphrasePath, passphrase}) => {
 		if(passphrase){

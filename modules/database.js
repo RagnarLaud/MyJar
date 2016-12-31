@@ -225,10 +225,11 @@ function ClientHandler() {
         if (!Array.isArray(criteria)) return null;
         if (criteria.length === 0) return [];
 
-        // TODO: Escape all regex characters from the criteria
-
         for (let {field, query} of criteria) {
             if (field !== 'mobile') {
+                // Escape regex characters
+                query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+
                 // If the client schema contains the specified field,
                 // look for client models matching that
                 if (Client.schema.paths[field] && query)
@@ -318,7 +319,7 @@ export default function Database() {
      */
     this.close = async() => {
         if (this.connection) await this.connection.close();
-    }
+    };
     /**
      * The middleware function that adds the database into the request object
      */
