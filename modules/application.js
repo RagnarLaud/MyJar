@@ -28,6 +28,8 @@ export default function Application({settingsPath}) {
      * Sets up the configuration file
      */
     this.setup = async() => {
+        if(true === isSetUp) return;
+
         settingsPath = settingsPath ? path.resolve(settingsPath) : path.resolve(__dirname, '..', 'config.json');
 
         if (true !== await fs.exists(settingsPath)) await fs.writeFile(settingsPath, '{}');
@@ -56,7 +58,7 @@ export default function Application({settingsPath}) {
      * needed by the application.
      */
     this.start = async() => {
-        await this.setup();
+        if (false !== isSetUp) await this.setup();
 
         await this.enc.initialize({passphrasePath: this.settings.encryptionKey});
         await this.utils.initialize(this.settings.twilio);
