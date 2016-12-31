@@ -5,7 +5,8 @@
   "main": "bin/www.js",
   "scripts": {
     "start": "node node_modules/babel-cli/bin/babel-node --harmony bin/www.js",
-    "test": "node node_modules/mocha/bin/mocha --harmony --compilers js:babel-core/register tests/*.test.js"
+    "test": "node node_modules/mocha/bin/mocha --harmony --compilers js:babel-core/register tests/*.test.js",
+    "setup": "node node_modules/babel-cli/bin/babel-node --harmony bin/www.js setup"
   },
   "author": "Ragnar Laud",
   "license": "GPL-3.0",

@@ -14,7 +14,9 @@ import API from '../routes/api';
  * @param settingsPath  The path to the settings file
  * @constructor
  */
-export default function Application(settingsPath) {
+export default function Application({settingsPath}) {
+    let isSetUp = false;
+
     this.express  = express();
     this.database = new Database();
     this.utils    = new Utils();
@@ -23,13 +25,12 @@ export default function Application(settingsPath) {
     this.settings = {};
 
     /**
-     * Starts the application and everything
-     * needed by the application.
+     * Sets up the configuration file
      */
-    this.start = async() => {
-        settingsPath = settingsPath || path.resolve(__dirname, '..', 'config.json');
+    this.setup = async() => {
+        settingsPath = settingsPath ? path.resolve(settingsPath) : path.resolve(__dirname, '..', 'config.json');
 
-        if(true !== await fs.exists(settingsPath)) await fs.writeFile(settingsPath, '{}');
+        if (true !== await fs.exists(settingsPath)) await fs.writeFile(settingsPath, '{}');
 
         let settings = JSON.parse(await fs.readFile(settingsPath, 'utf-8'));
         for (let key in settings)
@@ -43,9 +44,19 @@ export default function Application(settingsPath) {
         this.settings.database.password = this.settings.database.password || '';
         this.settings.database.database = this.settings.database.database || 'myjar';
 
-        this.settings.twilio = this.settings.twilio || {};
-        this.settings.twilio.sid = this.settings.twilio.sid || 'INSERT TWILIO SID HERE';
+        this.settings.twilio       = this.settings.twilio || {};
+        this.settings.twilio.sid   = this.settings.twilio.sid || 'INSERT TWILIO SID HERE';
         this.settings.twilio.token = this.settings.twilio.token || 'INSERT TWILIO TOKEN HERE';
+
+        isSetUp = true;
+    };
+
+    /**
+     * Starts the application and everything
+     * needed by the application.
+     */
+    this.start = async() => {
+        await this.setup();
 
         await this.enc.initialize({passphrasePath: this.settings.encryptionKey});
         await this.utils.initialize(this.settings.twilio);

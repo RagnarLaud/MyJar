@@ -316,7 +316,9 @@ export default function Database() {
     /**
      * Closes the connection to the database
      */
-    this.close      = async() => await this.connection.close();
+    this.close = async() => {
+        if (this.connection) await this.connection.close();
+    }
     /**
      * The middleware function that adds the database into the request object
      */

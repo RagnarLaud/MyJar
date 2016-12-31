@@ -103,7 +103,6 @@ export default function API() {
             }
 
             if (informationErrors.length) {
-
                 return res.status(406).send(informationErrors);
             }
 

@@ -13,7 +13,7 @@ describe('API tests', () => {
     let server;
 
     before(async() => {
-        application = new Application();
+        application = new Application({});
         await application.start();
         server = chai.request.agent(application.express);
     });
